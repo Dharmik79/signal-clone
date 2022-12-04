@@ -2,7 +2,7 @@ import { View, KeyboardAvoidingView, StyleSheet } from "react-native";
 import React, { useState, useLayoutEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Text } from "@rneui/themed";
-
+import { auth } from "../firebase";
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +16,22 @@ const RegisterScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const register = () => {};
+  const register = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        authUser.user.updateProfile({
+          displayName: name,
+          photoURL:
+            imageUrl ||
+            "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg",
+        });
+      })
+      .catch((error) => {
+        console.log("error", error);
+        alert(error.message);
+      });
+  };
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light" />
