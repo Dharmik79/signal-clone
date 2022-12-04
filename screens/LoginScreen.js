@@ -1,12 +1,17 @@
-import { View, Text, StyleSheet ,KeyboardAvoidingView} from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Image } from "@rneui/themed";
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = () => {};
+  const signIn = () => {
+    navigation.navigate("Register");
+  };
+  const register = () => {
+    navigation.navigate("Register");
+  };
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"></StatusBar>
@@ -35,15 +40,11 @@ const LoginScreen = () => {
           }}
           value={password}
         />
-        </View>
-        <Button containerStyle={styles.button} title="Login" onPress={signIn} />
-        <Button
-          containerStyle={styles.button}
-          title="Register"
-          type="outline"
-        />
-     
-      <View style={{height:100}}></View>
+      </View>
+      <Button containerStyle={styles.button} title="Login" onPress={signIn} />
+      <Button containerStyle={styles.button} title="Register" type="outline" onPress={register} />
+
+      <View style={{ height: 100 }}></View>
     </KeyboardAvoidingView>
   );
 };
@@ -52,17 +53,17 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    alignItems:"center",
-    justifyContent:"center",
-    padidng:10,
-    backgroundColor:"color"
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padidng: 10,
+    backgroundColor: "color",
   },
   inputContainer: {
-    width:300
+    width: 300,
   },
   button: {
-    width:200,
-    marginTop:10
+    width: 200,
+    marginTop: 10,
   },
 });
