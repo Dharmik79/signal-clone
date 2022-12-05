@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import CustomListItem from "../components/CustomListItem";
 import { Avatar } from "@rneui/base";
@@ -14,6 +14,19 @@ import { auth, db } from "../firebase";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = db.collection("chats").onSnapshot((snapshot) => {
+      setChats(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+    return unsubscribe;
+  }, []);
   const signOutUser = () => {
     auth.signOut().then(() => {
       navigation.replace("Login");
@@ -68,7 +81,9 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView>
       <StatusBar style="light" />
       <ScrollView>
-        <CustomListItem />
+        {chats.map(({ id, data: { chatName } }) => {
+          return <CustomListItem key={id} id={id} chatName={chatName} />;
+        })}
       </ScrollView>
     </SafeAreaView>
   );
