@@ -1,11 +1,24 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import React, { useLayoutEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import CustomListItem from "../components/CustomListItem";
 import { Avatar } from "@rneui/base";
 import { auth, db } from "../firebase";
-StatusBar;
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
+
 const HomeScreen = ({ navigation }) => {
+  const signOutUser = () => {
+    auth.signOut().then(() => {
+      navigation.replace("Login");
+    });
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Signal",
@@ -13,9 +26,41 @@ const HomeScreen = ({ navigation }) => {
       headerTitleStyle: { color: "black" },
       headerTintColor: "black",
       headerLeft: () => {
-        <View style={{ marginLeft: 30 }}>
-          <Avatar rounded source={{ uri: auth?.currentUser?.photoURL || "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F268533%2Fpexels-photo-268533.jpeg%3Fcs%3Dsrgb%26dl%3Dpexels-pixabay-268533.jpg%26fm%3Djpg&imgrefurl=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbeautiful%2F&tbnid=nwiTKnJXTwcwcM&vet=12ahUKEwjWgZe6seD7AhXbmmoFHbDvBJcQMygAegUIARDeAQ..i&docid=B51x0PBR9KNzvM&w=1920&h=1278&itg=1&q=images&ved=2ahUKEwjWgZe6seD7AhXbmmoFHbDvBJcQMygAegUIARDeAQ"}} />
-        </View>;
+        return (
+          <View style={{ marginLeft: 0 }}>
+            <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
+              <Avatar
+                rounded
+                source={{
+                  uri: auth.currentUser.photoURL
+                    ? auth.currentUser.photoURL
+                    : "https://dharmik79.github.io/portfolio.github.io/images/profile.jpeg",
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        );
+      },
+      headerRight: () => {
+        return (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: 80,
+            }}
+          >
+            <TouchableOpacity activeOpacity={0.5}>
+              <AntDesign name="camerao" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("AddChat")}
+              activeOpacity={0.5}
+            >
+              <SimpleLineIcons name="pencil" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        );
       },
     });
   }, [navigation]);

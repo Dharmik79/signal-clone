@@ -7,7 +7,11 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = () => {};
+  const signIn = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error));
+  };
   const register = () => {
     navigation.navigate("Register");
   };
@@ -47,6 +51,7 @@ const LoginScreen = ({ navigation }) => {
             setPassword(e);
           }}
           value={password}
+          onSubmitEditing={signIn}
         />
       </View>
       <Button containerStyle={styles.button} title="Login" onPress={signIn} />
