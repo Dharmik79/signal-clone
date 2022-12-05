@@ -80,7 +80,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <StatusBar style="light" />
-      <ScrollView>
+      <ScrollView style={styles.container}>
         {chats.map(({ id, data: { chatName } }) => {
           return <CustomListItem key={id} id={id} chatName={chatName} />;
         })}
@@ -90,4 +90,8 @@ const HomeScreen = ({ navigation }) => {
 };
 
 export default HomeScreen;
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container:{
+    height:"100%"
+  }
+});
