@@ -3,7 +3,7 @@ import React from "react";
 import { Avatar, ListItem } from "@rneui/base";
 const CustomListItem = ({ id, chatName, enterChat }) => {
   return (
-    <ListItem bottomDivider key={id} onPress={() => enterChat(id.chatName)}>
+    <ListItem bottomDivider key={id} onPress={() => enterChat(id,chatName)}>
       <Avatar
         rounded
         source={{
